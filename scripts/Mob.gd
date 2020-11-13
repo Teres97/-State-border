@@ -6,6 +6,7 @@ var p = 0
 var screen_size
 var flag = false
 var rand = RandomNumberGenerator.new()
+var MobA = preload("res://Pictures/mobA.png")
 
 func _ready():
 	rand.randomize()
@@ -39,20 +40,25 @@ func _process(delta):
 	if p < 0.25:
 		position.y += y
 		position.x += x
+		position.x = clamp(position.x, 0, screen_size.x)
 	elif p > 0.25 and p < 0.5:
 		position.y -= y
 		position.x -= x
+		position.x = clamp(position.x, 0, screen_size.x)
 	elif p > 0.5 and p < 0.75:
 		position.y += y
 		position.x -= x
+		position.x = clamp(position.x, 0, screen_size.x)
 	elif p > 0.75 and p < 1:
 		position.y -= y
 		position.x += x
-	
+		position.x = clamp(position.x, 0, screen_size.x)
 	if position.y > 360:
+		$MobSprite.set_texture(MobA)
 		flag = true
 	
 	if (position.y > screen_size.y or position.y < 0 or position.x > screen_size.x or position.x < 0) and flag == true:
 		queue_free()
 		Player.health -= 1
-
+	elif (position.y > screen_size.y or position.y < 0 or position.x > screen_size.x or position.x < 0):
+		queue_free()
